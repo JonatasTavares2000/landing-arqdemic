@@ -1,0 +1,41 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import HeroSection from '../components/HeroSection.astro';
+import BenefitsSection from '../components/BenefitsSection.astro';
+import PlatformPreview from '../components/PlatformPreview.astro';
+import CommunityPreview from '../components/CommunityPreview.astro';
+import CommunityInterface from '../components/CommunityInterface.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FAQ from '../components/FAQ.astro';
+import '../styles/style.css';
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARQDEMIC Educação - Comunidade de Arquitetura</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <Header />
+
+    <main>
+        <HeroSection />
+        <BenefitsSection />
+        <PlatformPreview />
+        <CommunityPreview />
+        <CommunityInterface />
+        <Testimonials />
+        <FAQ />
+    </main>
+
+    <Footer />
+</body>
+</html>
