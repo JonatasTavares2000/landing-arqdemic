@@ -167,7 +167,7 @@ nav {
     width: 100%;
 }
 
-.hero::before {
+/* .hero::before {
     content: '';
     position: absolute;
     width: 100%;
@@ -175,7 +175,7 @@ nav {
     background: url('src/assets/pattern.svg') repeat;
     opacity: 0.05;
     animation: slide 20s linear infinite;
-}
+} */
 
 .hero-content {
     width: 100%;
@@ -2146,10 +2146,10 @@ footer::before {
     opacity: 0.9;
 }
 
-.feature-item:hover {
+/* .feature-item:hover {
     transform: scale(1.1) translateY(-10px);
     box-shadow: 0 15px 45px rgba(31, 38, 135, 0.2);
-}
+} */
 
 .feature-item:nth-child(1) {
     top: -30px;
