@@ -1,0 +1,264 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<section class:list={["sponsors-section", className]}>
+  <h2>Quem apoia nossa jornada</h2>
+  <div class="sponsors-carousel">
+    <div class="carousel-container">
+      <div class="carousel-track" id="carousel-track">
+        <div class="sponsor-item">
+          <img src="/src/assets/abstartups.png" alt="EdTech" />
+        </div>
+        <div class="sponsor-item">
+          <img src="/src/assets/sebrae.png" alt="Startup" />
+        </div>
+        <div class="sponsor-item">
+          <img src="/src/assets/shell.png" alt="Innovation" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sponsors-section {
+    padding: 6rem 2rem;
+    background: var(--light-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sponsors-section::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: url('assets/pattern.svg') repeat;
+    opacity: 0.05;
+    z-index: 1;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--text-color);
+    font-family: 'Satoshi', sans-serif;
+    position: relative;
+    z-index: 2;
+  }
+
+  .sponsors-carousel {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 1rem;
+    z-index: 2;
+  }
+
+  .carousel-container {
+    overflow: hidden;
+    padding: 1rem 0;
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    will-change: transform;
+  }
+
+  .sponsor-item {
+    flex: 0 0 calc(33.333% - 2rem);
+    min-width: 200px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+
+  .sponsor-item:hover {
+    transform: translateY(-4px);
+  }
+
+  .sponsor-item img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(1) opacity(0.8);
+    transition: filter 0.3s ease;
+  }
+
+  .sponsor-item:hover img {
+    filter: grayscale(0) opacity(1);
+  }
+
+  @media (max-width: 768px) {
+    .sponsors-section {
+      padding: 4rem 1.5rem;
+    }
+
+    .sponsor-item {
+      flex: 0 0 calc(50% - 2rem);
+      height: 100px;
+    }
+
+    h2 {
+      margin-bottom: 2rem;
+    }
+
+    .carousel-track {
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .sponsors-section {
+      padding: 3rem 1rem;
+    }
+
+    .sponsor-item {
+      flex: 0 0 100%;
+      height: 90px;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  class Carousel {
+    private track: HTMLElement;
+    private animationFrame: number | null = null;
+    private lastTimestamp: number = 0;
+    private position: number = 0;
+    private readonly speed: number = 1; // pixels per frame
+
+    constructor(trackElement: HTMLElement) {
+      this.track = trackElement;
+      this.init();
+    }
+
+    private init(): void {
+      // Clone items multiple times for smooth infinite scroll
+      const originalItems = Array.from(this.track.querySelectorAll('.sponsor-item'));
+      const totalWidth = this.calculateTotalWidth();
+      
+      // Clone enough items to fill ten times the container width for ultra-smooth scrolling
+      const itemsNeeded = Math.ceil((this.track.offsetWidth * 10) / totalWidth);
+      
+      for (let i = 0; i < itemsNeeded; i++) {
+        originalItems.forEach(item => {
+          const clone = item.cloneNode(true) as HTMLElement;
+          this.track.appendChild(clone);
+        });
+      }
+
+      // Wait for all images to load before starting
+      Promise.all(
+        Array.from(this.track.querySelectorAll('img')).map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.onload = () => resolve(undefined);
+            img.onerror = () => resolve(undefined);
+          });
+        })
+      ).then(() => {
+        // Start with a slight delay to ensure smooth initial animation
+        setTimeout(() => requestAnimationFrame(() => this.startScroll()), 100);
+      });
+
+      // Handle visibility changes
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          this.pauseScroll();
+        } else {
+          this.startScroll();
+        }
+      });
+
+      // Handle window resize
+      let resizeTimeout: number;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        this.pauseScroll();
+        resizeTimeout = setTimeout(() => {
+          this.position = 0;
+          this.track.style.transform = `translateX(0)`;
+          this.startScroll();
+        }, 150);
+      });
+    }
+
+    private calculateTotalWidth(): number {
+      const items = this.track.querySelectorAll('.sponsor-item');
+      let totalWidth = 0;
+      items.forEach(item => {
+        const style = window.getComputedStyle(item as HTMLElement);
+        const width = (item as HTMLElement).offsetWidth;
+        const gap = parseFloat(style.marginRight) || parseFloat(getComputedStyle(this.track).gap) || 0;
+        totalWidth += width + gap;
+      });
+      return totalWidth;
+    }
+
+    private startScroll(): void {
+      if (this.animationFrame) return;
+      
+      const animate = (timestamp: number) => {
+        if (!this.lastTimestamp) this.lastTimestamp = timestamp;
+        const delta = timestamp - this.lastTimestamp;
+        
+        this.position -= this.speed * (delta / 16); // Normalize to 60fps
+        this.track.style.transform = `translateX(${this.position}px)`;
+
+        // Reset position when a full set of items has scrolled
+        const firstSetWidth = this.calculateTotalWidth() / 10;
+        if (Math.abs(this.position) >= firstSetWidth) {
+          this.position = 0;
+        }
+
+        this.lastTimestamp = timestamp;
+        this.animationFrame = requestAnimationFrame(animate);
+      };
+
+      this.animationFrame = requestAnimationFrame(animate);
+    }
+
+    private pauseScroll(): void {
+      if (this.animationFrame) {
+        cancelAnimationFrame(this.animationFrame);
+        this.animationFrame = null;
+        this.lastTimestamp = 0;
+      }
+    }
+  }
+
+  function initCarousel(): void {
+    const track = document.getElementById('carousel-track');
+    if (track instanceof HTMLElement) {
+      new Carousel(track);
+    }
+  }
+
+  // Initialize carousel when the page is ready
+  document.addEventListener('astro:page-load', initCarousel);
+  // Also initialize on initial page load for non-view transitions
+  document.addEventListener('DOMContentLoaded', initCarousel);
+</script>
