@@ -1,4 +1,6 @@
 ---
+import 'swiper/css';
+import 'swiper/css/autoplay';
 interface Props {
   class?: string;
 }
@@ -9,16 +11,33 @@ const { class: className } = Astro.props;
 <section class:list={["sponsors-section", className]}>
   <h2>Quem apoia nossa jornada</h2>
   <div class="sponsors-carousel">
-    <div class="carousel-container">
-      <div class="carousel-track" id="carousel-track">
-        <div class="sponsor-item">
-          <img src="/src/assets/abstartups.png" alt="EdTech" />
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <!-- Original slides -->
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/abstartups.png" />
         </div>
-        <div class="sponsor-item">
-          <img src="/src/assets/sebrae.png" alt="Startup" />
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/sebrae.png" />
         </div>
-        <div class="sponsor-item">
-          <img src="/src/assets/shell.png" alt="Innovation" />
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/shell.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/djassi.png" />
+        </div>
+        <!-- Duplicated slides for smoother loop -->
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/abstartups.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/sebrae.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/shell.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/djassi.png" />
         </div>
       </div>
     </div>
@@ -66,20 +85,16 @@ const { class: className } = Astro.props;
     z-index: 2;
   }
 
-  .carousel-container {
+  .swiper {
     overflow: hidden;
     padding: 1rem 0;
   }
 
-  .carousel-track {
-    display: flex;
-    gap: 4rem;
-    align-items: center;
-    will-change: transform;
+  .swiper-wrapper {
+    transition-timing-function: linear !important;
   }
 
   .sponsor-item {
-    flex: 0 0 calc(33.333% - 2rem);
     min-width: 200px;
     height: 120px;
     display: flex;
@@ -112,16 +127,11 @@ const { class: className } = Astro.props;
     }
 
     .sponsor-item {
-      flex: 0 0 calc(50% - 2rem);
       height: 100px;
     }
 
     h2 {
       margin-bottom: 2rem;
-    }
-
-    .carousel-track {
-      gap: 2rem;
     }
   }
 
@@ -131,7 +141,6 @@ const { class: className } = Astro.props;
     }
 
     .sponsor-item {
-      flex: 0 0 100%;
       height: 90px;
     }
     
@@ -143,122 +152,30 @@ const { class: className } = Astro.props;
 </style>
 
 <script>
-  class Carousel {
-    private track: HTMLElement;
-    private animationFrame: number | null = null;
-    private lastTimestamp: number = 0;
-    private position: number = 0;
-    private readonly speed: number = 1; // pixels per frame
-
-    constructor(trackElement: HTMLElement) {
-      this.track = trackElement;
-      this.init();
-    }
-
-    private init(): void {
-      // Clone items multiple times for smooth infinite scroll
-      const originalItems = Array.from(this.track.querySelectorAll('.sponsor-item'));
-      const totalWidth = this.calculateTotalWidth();
-      
-      // Clone enough items to fill ten times the container width for ultra-smooth scrolling
-      const itemsNeeded = Math.ceil((this.track.offsetWidth * 10) / totalWidth);
-      
-      for (let i = 0; i < itemsNeeded; i++) {
-        originalItems.forEach(item => {
-          const clone = item.cloneNode(true) as HTMLElement;
-          this.track.appendChild(clone);
-        });
-      }
-
-      // Wait for all images to load before starting
-      Promise.all(
-        Array.from(this.track.querySelectorAll('img')).map(img => {
-          if (img.complete) return Promise.resolve();
-          return new Promise(resolve => {
-            img.onload = () => resolve(undefined);
-            img.onerror = () => resolve(undefined);
-          });
-        })
-      ).then(() => {
-        // Start with a slight delay to ensure smooth initial animation
-        setTimeout(() => requestAnimationFrame(() => this.startScroll()), 100);
-      });
-
-      // Handle visibility changes
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          this.pauseScroll();
-        } else {
-          this.startScroll();
-        }
-      });
-
-      // Handle window resize
-      let resizeTimeout: number;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        this.pauseScroll();
-        resizeTimeout = setTimeout(() => {
-          this.position = 0;
-          this.track.style.transform = `translateX(0)`;
-          this.startScroll();
-        }, 150);
-      });
-    }
-
-    private calculateTotalWidth(): number {
-      const items = this.track.querySelectorAll('.sponsor-item');
-      let totalWidth = 0;
-      items.forEach(item => {
-        const style = window.getComputedStyle(item as HTMLElement);
-        const width = (item as HTMLElement).offsetWidth;
-        const gap = parseFloat(style.marginRight) || parseFloat(getComputedStyle(this.track).gap) || 0;
-        totalWidth += width + gap;
-      });
-      return totalWidth;
-    }
-
-    private startScroll(): void {
-      if (this.animationFrame) return;
-      
-      const animate = (timestamp: number) => {
-        if (!this.lastTimestamp) this.lastTimestamp = timestamp;
-        const delta = timestamp - this.lastTimestamp;
-        
-        this.position -= this.speed * (delta / 16); // Normalize to 60fps
-        this.track.style.transform = `translateX(${this.position}px)`;
-
-        // Reset position when a full set of items has scrolled
-        const firstSetWidth = this.calculateTotalWidth() / 10;
-        if (Math.abs(this.position) >= firstSetWidth) {
-          this.position = 0;
-        }
-
-        this.lastTimestamp = timestamp;
-        this.animationFrame = requestAnimationFrame(animate);
-      };
-
-      this.animationFrame = requestAnimationFrame(animate);
-    }
-
-    private pauseScroll(): void {
-      if (this.animationFrame) {
-        cancelAnimationFrame(this.animationFrame);
-        this.animationFrame = null;
-        this.lastTimestamp = 0;
+  import Swiper from 'swiper';
+  import { Autoplay } from 'swiper/modules';
+  
+  const swiper = new Swiper('.swiper', {
+    modules: [Autoplay],
+    slidesPerView: 'auto',
+    spaceBetween: 30,
+    loop: true,
+    speed: 5000,
+    allowTouchMove: false,
+    autoplay: {
+      delay: 0,
+      disableOnInteraction: false,
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+      },
+      480: {
+        slidesPerView: 2,
+      },
+      768: {
+        slidesPerView: 3,
       }
     }
-  }
-
-  function initCarousel(): void {
-    const track = document.getElementById('carousel-track');
-    if (track instanceof HTMLElement) {
-      new Carousel(track);
-    }
-  }
-
-  // Initialize carousel when the page is ready
-  document.addEventListener('astro:page-load', initCarousel);
-  // Also initialize on initial page load for non-view transitions
-  document.addEventListener('DOMContentLoaded', initCarousel);
+  });
 </script>

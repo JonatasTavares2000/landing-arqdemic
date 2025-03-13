@@ -1242,6 +1242,10 @@ nav {
     color: white;
 }
 
+.stat-item:hover .stat-label {
+    color: white;
+}
+
 .stat-label {
     font-size: 0.875rem;
     opacity: 0.8;
@@ -2610,7 +2614,7 @@ footer::before {
 
 /* See More Link Styles */
 .see-more {
-    margin-top: 1.5rem;
+    margin-top: 1;
     text-align: center;
 }
 
