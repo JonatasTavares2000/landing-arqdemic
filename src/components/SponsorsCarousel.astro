@@ -1,0 +1,181 @@
+---
+import 'swiper/css';
+import 'swiper/css/autoplay';
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<section class:list={["sponsors-section", className]}>
+  <h2>Quem apoia nossa jornada</h2>
+  <div class="sponsors-carousel">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <!-- Original slides -->
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/abstartups.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/sebrae.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/shell.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/djassi.png" />
+        </div>
+        <!-- Duplicated slides for smoother loop -->
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/abstartups.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/sebrae.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/shell.png" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/djassi.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sponsors-section {
+    padding: 6rem 2rem;
+    background: var(--light-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sponsors-section::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: url('assets/pattern.svg') repeat;
+    opacity: 0.05;
+    z-index: 1;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--text-color);
+    font-family: 'Satoshi', sans-serif;
+    position: relative;
+    z-index: 2;
+  }
+
+  .sponsors-carousel {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 1rem;
+    z-index: 2;
+  }
+
+  .swiper {
+    overflow: hidden;
+    padding: 1rem 0;
+  }
+
+  .swiper-wrapper {
+    transition-timing-function: linear !important;
+  }
+
+  .sponsor-item {
+    min-width: 200px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+
+  .sponsor-item:hover {
+    transform: translateY(-4px);
+  }
+
+  .sponsor-item img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(1) opacity(0.8);
+    transition: filter 0.3s ease;
+  }
+
+  .sponsor-item:hover img {
+    filter: grayscale(0) opacity(1);
+  }
+
+  @media (max-width: 768px) {
+    .sponsors-section {
+      padding: 4rem 1.5rem;
+    }
+
+    .sponsor-item {
+      height: 100px;
+    }
+
+    h2 {
+      margin-bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .sponsors-section {
+      padding: 3rem 1rem;
+    }
+
+    .sponsor-item {
+      height: 90px;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Autoplay } from 'swiper/modules';
+  
+  const swiper = new Swiper('.swiper', {
+    modules: [Autoplay],
+    slidesPerView: 'auto',
+    spaceBetween: 30,
+    loop: true,
+    speed: 5000,
+    allowTouchMove: false,
+    autoplay: {
+      delay: 0,
+      disableOnInteraction: false,
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+      },
+      480: {
+        slidesPerView: 2,
+      },
+      768: {
+        slidesPerView: 3,
+      }
+    }
+  });
+</script>
