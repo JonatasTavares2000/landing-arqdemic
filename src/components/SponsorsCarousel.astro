@@ -13,31 +13,30 @@ const { class: className } = Astro.props;
   <div class="sponsors-carousel">
     <div class="swiper">
       <div class="swiper-wrapper">
-        <!-- Original slides -->
+        <!-- Duplicando slides para garantir transição suave -->
         <div class="swiper-slide sponsor-item">
-          <img src="/src/assets/images/abstartups.png" />
+          <img src="/src/assets/images/abstartups.png" alt="Abstartups" loading="lazy" />
         </div>
         <div class="swiper-slide sponsor-item">
-          <img src="/src/assets/images/sebrae.png" />
+          <img src="/src/assets/images/sebrae.png" alt="Sebrae" loading="lazy" />
         </div>
         <div class="swiper-slide sponsor-item">
-          <img src="/src/assets/images/shell.png" />
+          <img src="/src/assets/images/shell.png" alt="Shell" loading="lazy" />
         </div>
         <div class="swiper-slide sponsor-item">
-          <img src="/src/assets/images/djassi.png" />
-        </div>
-        <!-- Duplicated slides for smoother loop -->
-        <div class="swiper-slide sponsor-item">
-          <img src="/src/assets/images/abstartups.png" />
+          <img src="/src/assets/images/djassi.png" alt="Djassi" loading="lazy" />
         </div>
         <div class="swiper-slide sponsor-item">
-          <img src="/src/assets/images/sebrae.png" />
+          <img src="/src/assets/images/abstartups.png" alt="Abstartups" loading="lazy" />
         </div>
         <div class="swiper-slide sponsor-item">
-          <img src="/src/assets/images/shell.png" />
+          <img src="/src/assets/images/sebrae.png" alt="Sebrae" loading="lazy" />
         </div>
         <div class="swiper-slide sponsor-item">
-          <img src="/src/assets/images/djassi.png" />
+          <img src="/src/assets/images/shell.png" alt="Shell" loading="lazy" />
+        </div>
+        <div class="swiper-slide sponsor-item">
+          <img src="/src/assets/images/djassi.png" alt="Djassi" loading="lazy" />
         </div>
       </div>
     </div>
@@ -154,28 +153,59 @@ const { class: className } = Astro.props;
 <script>
   import Swiper from 'swiper';
   import { Autoplay } from 'swiper/modules';
-  
-  const swiper = new Swiper('.swiper', {
-    modules: [Autoplay],
-    slidesPerView: 'auto',
-    spaceBetween: 30,
-    loop: true,
-    speed: 5000,
-    allowTouchMove: false,
-    autoplay: {
-      delay: 0,
-      disableOnInteraction: false,
-    },
-    breakpoints: {
-      320: {
-        slidesPerView: 1,
+
+  function initSwiper() {
+    const swiper = new Swiper('.swiper', {
+      modules: [Autoplay],
+      slidesPerView: 4,
+      spaceBetween: 30,
+      loop: true,
+      speed: 5000,
+      allowTouchMove: false,
+      watchSlidesProgress: true,
+      observer: true,
+      observeParents: true,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: false,
       },
-      480: {
-        slidesPerView: 2,
-      },
-      768: {
-        slidesPerView: 3,
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+          spaceBetween: 20,
+        },
+        480: {
+          slidesPerView: 2,
+          spaceBetween: 25,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 30,
+        }
       }
+    });
+
+    // Força o autoplay a continuar sempre
+    setInterval(() => {
+      if (!swiper.autoplay.running) {
+        swiper.autoplay.start();
+      }
+    }, 100);
+  }
+
+  // Garante que o script só roda no cliente
+  if (typeof window !== 'undefined') {
+    // Se o DOM já estiver carregado, inicializa imediatamente
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initSwiper();
+    } else {
+      // Caso contrário, aguarda o DOM carregar
+      document.addEventListener('DOMContentLoaded', initSwiper);
     }
-  });
+  }
 </script>
