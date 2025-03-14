@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "astro": "^5.4.3",
-    "swiper": "^11.2.5",
-    "astro-lenis": "^1.0.0"
+    "lenis": "^1.2.3",
+    "swiper": "^11.2.5"
   }
 }
