@@ -111,7 +111,7 @@ header {
     width: 100%;
     top: 0;
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+/*     backdrop-filter: blur(10px); */
     z-index: 1000;
     padding: 1rem 2rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -641,7 +641,7 @@ nav {
 
 .benefit-card {
     background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
+/*     backdrop-filter: blur(10px); */
     border-radius: 24px;
     padding: 2.5rem 2rem;
     text-align: center;
@@ -889,7 +889,7 @@ nav {
     box-shadow: 0 12px 32px rgba(31, 38, 135, 0.1);
     transition: all 0.4s ease;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(20px);
+/*     backdrop-filter: blur(20px); */
 }
 
 .platform-card:hover {
@@ -1436,7 +1436,7 @@ nav {
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
     transition: all 0.4s ease;
     color: white;
-    backdrop-filter: blur(4px);
+/*     backdrop-filter: blur(4px); */
     border: 1px solid rgba(255, 255, 255, 0.18);
     padding: 20px;
     text-align: center;
@@ -1667,7 +1667,7 @@ nav {
     padding: 1.5rem;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-    backdrop-filter: blur(10px);
+/*     backdrop-filter: blur(10px); */
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
 }
@@ -2199,7 +2199,7 @@ footer::before {
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
     transition: all 0.4s ease;
     color: white;
-    backdrop-filter: blur(4px);
+/*     backdrop-filter: blur(4px); */
     border: 1px solid rgba(255, 255, 255, 0.18);
     padding: 20px;
     text-align: center;
@@ -2342,7 +2342,7 @@ footer::before {
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
     transition: all 0.4s ease;
-    backdrop-filter: blur(4px);
+/*     backdrop-filter: blur(4px); */
     padding: 20px;
     text-align: center;
 }
