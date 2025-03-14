@@ -1,0 +1,114 @@
+<!-- About Us Section -->
+<section class="about-us">
+    <div class="about-container">
+        <h2>Sobre Nós</h2>
+        <div class="about-content">
+            <p class="about-text">
+                Somos uma comunidade dedicada a estudantes de Arquitetura e Design de Interiores, com o objetivo de qualificá-los e prepará-los para ingressar no mercado de trabalho.
+            </p>
+            
+            <p class="about-text">
+                Nossa missão é capacitar o maior número possível de estudantes, ajudando-os a conquistar oportunidades e realizar seus sonhos. Acreditamos no poder da conexão e do aprendizado colaborativo, e é por isso que contamos com você!
+            </p>
+
+            <p class="about-text">
+                Além disso, nossa comunidade conta com arquitetos experientes que compartilham conhecimento, enriquecem a prática profissional e, muitas vezes, buscam talentos dentro da própria comunidade para novas oportunidades de trabalho.
+            </p>
+
+            <p class="about-text highlight">
+                Junte-se a nós e impulsione sua carreira com aprendizado e oportunidades.
+            </p>
+        </div>
+    </div>
+</section>
+
+<style>
+    .about-us {
+        padding: 6rem 2rem;
+        background: var(--light-bg);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-us::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: url('assets/pattern.svg') repeat;
+        opacity: 0.05;
+        z-index: 1;
+    }
+
+    .about-container {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+        margin-bottom: 3rem;
+        color: var(--text-color);
+    }
+
+    .about-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-text {
+        font-size: 1.125rem;
+        line-height: 1.7;
+        color: var(--light-text);
+    }
+
+    .about-text.highlight {
+        font-weight: 600;
+        color: var(--primary-color);
+        text-align: center;
+        font-size: 1.25rem;
+        margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .about-us {
+            padding: 4rem 1.5rem;
+        }
+
+        .about-content {
+            padding: 2rem;
+        }
+
+        .about-text {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .about-us {
+            padding: 3rem 1rem;
+        }
+
+        .about-content {
+            padding: 1.5rem;
+        }
+
+        h2 {
+            margin-bottom: 2rem;
+        }
+    }
+</style>
+</main>
