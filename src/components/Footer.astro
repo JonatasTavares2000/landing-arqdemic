@@ -27,3 +27,108 @@
         <p>&copy; 2025 Arqdemic. Todos os direitos reservados.</p>
     </div>
 </footer>
+
+<style>
+    footer {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 4rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+    }
+
+    footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        /* O mesmo q  background: url(...) repeate */
+        background-image: url('src/assets/pattern.webp');
+        background-repeat: repeat;
+
+        /* A imagem começa no canto superior esquerdo apartir da borda */ 
+        background-origin: border-box;
+
+        /* O tamanho precisa ser em % para o looping não dessincronizar */
+        background-size: 1%; 
+
+        /* Faz o background ser 2x maior e usa o translate para mover de
+        volta para o canto superior esquerdo */
+        translate: 50% 50%;
+        scale: 2;
+
+        opacity: 0.25;
+        animation: footer-slide 20s linear infinite;
+        z-index: 1;
+    }
+
+    @keyframes footer-slide {
+        from { 
+            translate: -50% -50%;
+        }
+        to { 
+            translate: 50% 50%;
+            
+        }
+    }
+
+    .footer-content {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 4rem;
+    }
+
+    .footer-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-logo img {
+        height: 45px;
+        width: auto;
+        margin-bottom: 1.5rem;
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    .footer-links {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    .footer-column h4 {
+        margin-bottom: 1.5rem;
+        color: var(--white);
+    }
+
+    .footer-column a {
+        display: block;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .footer-column a:hover {
+        color: var(--white);
+    }
+
+    .footer-bottom {
+        max-width: 1200px;
+        margin: 2rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+</style>

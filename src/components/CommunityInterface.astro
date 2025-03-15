@@ -30,3 +30,124 @@
         </div>
     </div>
 </section>
+
+<style>
+    .community-interface {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), #1a237e);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    }
+
+    .community-interface::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        /* O mesmo q  background: url(...) repeate */
+        background-image: url('src/assets/pattern.webp');
+        background-repeat: repeat;
+
+        /* A imagem começa no canto superior esquerdo apartir da borda */ 
+        background-origin: border-box;
+
+        /* O tamanho precisa ser em % para o looping não dessincronizar */
+        background-size: 1%; 
+
+        /* Faz o background ser 2x maior e usa o translate para mover de
+        volta para o canto superior esquerdo */
+        translate: 50% 50%;
+        scale: 2;
+
+        opacity: 0.25;
+        animation: community-interface-slide 20s linear infinite;
+        z-index: 1;
+    }
+
+    @keyframes community-interface-slide {
+        from { 
+            translate: -50% -50%;
+        }
+        to { 
+            translate: 50% 50%;
+            
+        }
+    }
+
+    .community-interface .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    }
+
+    .community-interface h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 4rem;
+        color: white;
+    }
+
+    .interface-preview {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+
+    .interface-image {
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .interface-image:hover {
+    transform: translateY(-10px);
+    }
+
+    .interface-features {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .interface-features .feature {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+/*     backdrop-filter: blur(10px); */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    }
+
+    .interface-features .feature:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(10px);
+    }
+
+    .interface-features .feature i {
+        font-size: 2rem;
+        color: #fff;
+        opacity: 0.9;
+    }
+
+    .feature-text h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+
+    .feature-text p {
+        font-size: 0.95rem;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+    
+</style>

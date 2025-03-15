@@ -32,3 +32,60 @@
     </div>
 </section>
 </main>
+
+<style>
+    .faq {
+    padding: 6rem 2rem;
+    background: var(--light-bg);
+    }
+
+    .faq h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 4rem;
+        color: var(--primary-color);
+    }
+
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .faq-item {
+        margin-bottom: 1rem;
+        background: var(--white);
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .faq-question {
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .faq-question h3 {
+        color: var(--primary-color);
+        font-size: 1.1rem;
+    }
+
+    .toggle-icon {
+        font-size: 1.5rem;
+        color: var(--accent-color);
+    }
+
+    .faq-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        display: none;
+    }
+
+    .faq-item.active .faq-answer {
+        padding: 1.5rem;
+        max-height: 200px;
+    }
+</style>
